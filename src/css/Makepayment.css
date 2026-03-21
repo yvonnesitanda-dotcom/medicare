@@ -1,0 +1,56 @@
+.uiverse-card {
+    background: rgb(223, 214, 214);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(218, 189, 189, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.uiverse-card .card-img {
+    margin-bottom: 10px;
+}
+
+.uiverse-card .card-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.uiverse-card .card-subtitle {
+    font-size: 14px;
+    color: rgb(50,50,50);
+    margin-bottom: 10px;
+}
+
+.uiverse-card .card-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+.uiverse-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.uiverse-card .card-price {
+    font-weight: bold;
+    font-size: 16px;
+    color: rgb(21,21,21);
+}
+
+.uiverse-card .card-btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #e4b5b5;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.uiverse-card .card-btn:hover {
+    background: #d89a9a;
+}

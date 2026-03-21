@@ -1,0 +1,28 @@
+.button-container {
+  display: flex;
+  gap: 60px;
+  padding: 15px;
+  background: rgb(244, 249, 249);
+
+  justify-content: center;
+}
+
+.button {
+  background: rgb(190, 167, 167);
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: rgb(243, 33, 240);
+  transition: 0.3s;
+}
+
+.button:hover {
+  background: #503adf;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
