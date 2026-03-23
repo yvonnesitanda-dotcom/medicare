@@ -9,6 +9,8 @@ import Addproducts from './components/Addproducts';
 import Navbar from "./components/Navbar";
 import SpeakToDoctor from './components/Speaktoadr';
 import Myhealthcenter from './components/Myhealthcenter';
+import Footer from "./components/Footer";
+
 function App() {
   
   return (
@@ -36,8 +38,10 @@ function App() {
     
     
     </div>
+    <Footer />
     
   </Router>
+
    
   );
 }

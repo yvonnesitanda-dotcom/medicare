@@ -1,0 +1,64 @@
+.footer {
+  background: linear-gradient(135deg, #ff6ec7 0%, #ff2d95 100%);
+  color: white;
+  padding: 50px 20px 20px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.footer h2, .footer h4 {
+  margin-bottom: 15px;
+}
+
+.footer-brand h2 {
+  font-size: 24px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-links ul li a:hover {
+  color: #ffe6f0; /* lighter pink on hover */
+}
+
+.footer-contact p {
+  margin: 5px 0;
+}
+
+.footer-social .social-icons a {
+  margin-right: 15px;
+  font-size: 20px;
+  color: white;
+  transition: 0.3s;
+}
+
+.footer-social .social-icons a:hover {
+  color: #ffe6f0; /* lighter pink hover */
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.3);
+  padding-top: 15px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+}

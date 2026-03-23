@@ -1,90 +1,147 @@
-/* LAYOUT */
+/* 🌸 MAIN LAYOUT */
 .main-layout {
   display: flex;
-  background-color: rgb(250, 245, 245);
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffd6e8, #ffeef5);
+  font-family: 'Poppins', sans-serif;
 }
 
-/* SIDEBAR */
+/* 📌 SIDEBAR */
 .sidebar {
-  width: 250px;
-  background: #eadfdfb3;
-  color: rgb(10, 9, 9);
-  padding: 15px;
-  height: 200vh;
+  width: 240px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  border-right: 1px solid #ffc0cb;
+  overflow-y: auto;
 }
 
-/* DROPDOWN */
+/* Sidebar titles */
 .dropdown h4 {
-  cursor: pointer;
-  margin-top: 15px;
+  color: #ff4d88;
+  margin-bottom: 10px;
 }
 
-.dropdown-content {
-  margin-left: 10px;
-}
-
+/* Dropdown content */
 .dropdown-content p {
-  font-size: 14px;
   margin: 5px 0;
   cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  transition: 0.3s;
 }
 
 .dropdown-content p:hover {
-  color: #38bdf8;
+  color: #ff4d88;
+  transform: translateX(5px);
 }
 
-/* CONTENT */
+/* 📦 MAIN CONTENT */
 .content {
   flex: 1;
   padding: 20px;
 }
 
-/* BANNER */
+/* 🖼️ BANNER */
 .banner {
   width: 100%;
-  height: 150px;
+  height: 200px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 15px;
+  margin-bottom: 20px;
 }
 
-/* GRID */
+/* 🧾 GRID */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
-  margin-top: 20px;
 }
 
-/* UIVERSE CARD */
+/* 🧊 PRODUCT CARD */
+.product-card {
+  display: flex;
+  justify-content: center;
+}
+
+/* ✨ UIVERSE STYLE CARD */
 .uiverse-card {
-  background: rgb(239, 232, 232);
-  border-radius: 15px;
+  width: 100%;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
   transition: 0.3s;
 }
 
+/* HOVER EFFECT */
 .uiverse-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.03);
 }
 
+/* 🖼️ PRODUCT IMAGE */
 .product_img {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
 
+/* 📄 CONTENT */
 .uiverse-content {
-  padding: 10px;
+  padding: 15px;
   text-align: center;
 }
 
+/* Product name */
+.uiverse-content b {
+  color: #333;
+  font-size: 16px;
+}
+
+/* Description */
+.uiverse-content p {
+  font-size: 13px;
+  color: #777;
+  margin: 8px 0;
+}
+
+/* Price */
+.uiverse-content h4 {
+  color: #ff4d88;
+  margin-bottom: 10px;
+}
+
+/* 🛒 BUTTON */
 .uiverse-content button {
-  margin-top: 10px;
-  padding: 8px;
+  width: 100%;
+  padding: 10px;
   border: none;
-  background: #e5e9ec;
-  color: rgb(20, 19, 19);
-  border-radius: 8px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff4d88, #ff99bb);
+  color: white;
+  font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Hover */
+.uiverse-content button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #e6005c, #ff80aa);
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .banner {
+    height: 150px;
+  }
 }

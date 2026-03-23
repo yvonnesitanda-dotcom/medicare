@@ -1,28 +1,88 @@
-.button-container {
+/* Navbar container */
+.navbar {
   display: flex;
-  gap: 60px;
-  padding: 15px;
-  background: rgb(244, 249, 249);
-
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 10px 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-radius: 15px;
+  font-family: 'Poppins', sans-serif;
+  flex-wrap: wrap;
 }
 
-.button {
-  background: rgb(190, 167, 167);
-  border: none;
-  padding: 10px;
-  border-radius: 10px;
+/* Logo */
+.navbar-logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff4d88;
   cursor: pointer;
-  color: rgb(243, 33, 240);
+}
+
+/* Icon buttons */
+.navbar-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-btn {
+  background: linear-gradient(135deg, #ff4d88, #ff99bb);
+  border: none;
+  border-radius: 10px;
+  padding: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.nav-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #e6005c, #ff80aa);
+}
+
+/* SVG icons */
+.icon {
+  width: 22px;
+  height: 22px;
+  fill: white;
+}
+
+/* Links */
+.navbar-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  background: white;
+  color: #ff4d88;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
   transition: 0.3s;
 }
 
-.button:hover {
-  background: #503adf;
+.nav-link:hover {
+  background: #ff4d88;
+  color: white;
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
-}
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
 
+  .navbar-icons {
+    justify-content: center;
+  }
+
+  .navbar-links {
+    justify-content: center;
+  }
+}

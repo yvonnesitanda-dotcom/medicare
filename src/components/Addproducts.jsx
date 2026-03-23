@@ -1,118 +1,114 @@
 import axios from 'axios';
-import React, { use, useState } from 'react'
+import React, { useState } from 'react';
+import '../css/Addproducts.css';
 
 const Addproducts = () => {
 
-    // introduce hooks
-    const[productname,setProductname]=useState("");
-    const[description,setDescription]=useState("");
-    const[productcost,setProductcost]=useState("");
-    const[productphoto,setProductphoto]=useState("");
+  // introduce hooks
+  const [productname, setProductname] = useState("");
+  const [description, setDescription] = useState("");
+  const [productcost, setProductcost] = useState("");
+  const [productphoto, setProductphoto] = useState("");
 
-    //Declare three additional hooks
-    const[loading,setLoading]=useState(false);
-    const[success,setSuccess]=useState("");
-    const[error,setError]=useState("")
+  //Declare three additional hooks
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
 
-    // create a function that will handle the submit action
-    const handlesubmit=async(e)=>{
-        //prevent the site from reloading
-        e.preventDefault();
+  // create a function that will handle the submit action
+  const handlesubmit = async (e) => {
+    e.preventDefault();
 
-        //setLoading hook with a message(activate it)
-        setLoading(true);
-        setError("");
-        setSuccess("");
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
-        try{
-            //Create a form data object
-            const formData = new FormData()
+    try {
+      const formData = new FormData();
+      formData.append("product_name", productname);
+      formData.append("description", description);
+      formData.append("product_cost", productcost);
+      formData.append("product_photo", productphoto);
 
-            //append the form data with product details
-            formData.append("product_name",productname);
-            formData.append("description",description)
-            formData.append("product_cost",productcost);
-            formData.append("product_photo",productphoto)
+      const response = await axios.post("https://yvonnesitanda.alwaysdata.net/api/add_product", formData);
 
-            //interact with axios modules that will help you
-            const response = await axios.post("https://yvonnesitanda.alwaysdata.net/api/add_product")
+      setLoading(false);
+      setSuccess(response.data.message || "Product added successfully!");
 
-            // Set the loading hook back to default 
-            setLoading(false);
+      setProductname("");
+      setDescription("");
+      setProductcost("");
+      setProductphoto("");
+      e.target.reset();
 
-            // Update the success hook with a message
-            setSuccess(response.data.message);
-            
-            // Clear the hooks after successful submisiion
-            setProductname("");
-            setDescription("");
-            setProductcost("");
-            setProductphoto("");
+      setTimeout(() => setSuccess(""), 3000);
 
-            //clear the file input value
-            e.target.reset()
-
-            setTimeout(()=> {
-                setSuccess("");
-            },3000);
-        }
-        catch(error){
-            // set Loading back to default
-            setLoading(false);
-        }
+    } catch (err) {
+      setLoading(false);
+      setError(err.message || "Failed to add product!");
     }
+  }
 
   return (
-    <div className='row justify-content-center mt-4'>
-        <div className='col-md-6 card shadow p-4 bg-dark'>
-            <h3 className='text-white'>Welcome to Add products</h3>
-            {/*bind the loading hook */}
-            {loading && <p className='text-success'>Loading...</p>}
+    <div className='addproduct-page row justify-content-center'>
+      <div className='col-md-6 card addproduct-card p-4'>
+        <h3 className='title text-center'>Add a New Product</h3>
 
+        {loading && <p className='text-info'>Loading...</p>}
+        {success && <p className='text-success'>{success}</p>}
+        {error && <p className='text-danger'>{error}</p>}
 
-            <form>
-                <input type="text" 
-                placeholder='Enter the product Name'
-                className='form-control'
-                required
-                value={productname}
-                onChange={(e) => setProductname(e.target.value)}/>
-                <br />
+        <form onSubmit={handlesubmit} className="addproduct-form">
+          <input
+            type="text"
+            placeholder='Product Name'
+            className='form-control'
+            required
+            value={productname}
+            onChange={(e) => setProductname(e.target.value)}
+          />
+          <br />
 
-                <input type="text"
-                placeholder='Enter the product description'
-                className='form-control'
-                required 
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}/>
-                <br />
+          <input
+            type="text"
+            placeholder='Product Description'
+            className='form-control'
+            required
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <br />
 
-                <input type="number"
-                placeholder='Enter the product cost'
-                className='form-control'
-                required
-                value={productcost}
-                onChange={(e) => setProductcost(e.target.value)} />
-                <br />
+          <input
+            type="number"
+            placeholder='Product Cost'
+            className='form-control'
+            required
+            value={productcost}
+            onChange={(e) => setProductcost(e.target.value)}
+          />
+          <br />
 
-                <label > Product Photo</label>
-                <input type="file"
-                className='form-control'
-                required
-                accept='image/'
-                onChange={(e) => setProductphoto(e.target.file[0])} />
+          <label className="file-label">Product Photo</label>
+          <input
+            type="file"
+            className='form-control'
+            required
+            accept='image/*'
+            onChange={(e) => setProductphoto(e.target.files[0])}
+          />
+          <br />
 
-                <br /> <br /> <br />
-
-                <input type="submit"
-                value="Add Product"
-                className='btn btn-outline-primary' />
-                <br /> <br />
-            </form>
-        </div>
-      
+          <input
+            type="submit"
+            value={loading ? "Adding..." : "Add Product"}
+            className='btn addproduct-btn'
+            disabled={loading}
+          />
+        </form>
+      </div>
     </div>
   )
 }
 
-export default Addproducts
+export default Addproducts;
