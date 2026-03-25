@@ -145,3 +145,8 @@
     height: 150px;
   }
 }
+
+.active-category {
+  font-weight: bold;
+  color: #ff4081; /* highlight selected */
+}
