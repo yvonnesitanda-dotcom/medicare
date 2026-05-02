@@ -1,0 +1,54 @@
+Keyword	Utterance	Response
+hello,hi,hey,greet,	Hello there , Hey , Hii ,greetings	Hello ! How can I assist you today?
+Goodmorning,	Goodmorning chat .	,Goodmorning ! How can I help you today?
+Goodevening,	Goodevening chat.	,Goodevening!How may I help you today?
+see you , bye , goodbye, farewell,	Goodbye chat	,Goodbye! Stay healthy!
+thank you, appreciate it, preciate it, thanks,gratitude	,Thank you chat, Appreciate it, Thanks	, You're welcome. Happy to help! Anything else
+fever, high body temperatures ,	im having a fever , I have high body tempertures ,	Drink fluids and rest. If it persists, see a doctor.
+headache,headpains,	im having a headaches , my head pains, my head is aching	,Try resting and staying hydrated.
+stomach pain, stomach ache,	my stomache is aching, my stomach is paining,	Avoid heavy meals and monitor symptoms.
+cough, dry coughs	,im coughing	,Stay hydrated and take warm fluids.
+flu	,how to prevent flu,	Rest, hydrate, and monitor your condition.
+body aches, body pains,	I have body aches , my body aches,	Rest your body and stay hydrated.
+sore throat	,I have a sore throat, my throat is sore	,Drink warm fluids and avoid cold drinks.
+dizziness , dizzy,	I have dizziness, I'm feeling dizzy,	Sit down and rest. If it continues, seek help.
+nause,nauseous	,I feel nauseous, I have nausea,	Try small meals and stay hydrated
+vomit ,vomiting,	I am vomitting	,Drink fluids slowly and rest.
+healthy diet,	I need to take a balanced diet,what is a healthy diet	,Eat a balanced diet with fruits and vegetables.
+eat,	what should I eat	,Include proteins, vegetables, and whole grains.
+vitamins	,examples of vitamins, what vitamins should I eat,	Eat fruits and vegetables for vitamins.
+glasses, water,daily	,how many glasses of water should I drink	,Drink 6–8 glasses of water daily.
+balanced meal	,what should I have to eat balanced meal,	Include carbs, proteins, and healthy fats.
+junk food	,can I eat junk food	,Limit junk food for better health.
+fruits, benefits,	what are the benefits of fruits, why should I take fruits,	Fruits provide essential nutrients.
+veggies, vegatables	,what are the uses of vegetables,	Vegetables help boost immunity.
+emergency,	what is emergency help,	Call 911 for help.
+chest pains, chest aches	,im having chest aches, my chest is paining,	Seek medical help immediately.
+breathe, difficulty, well	,I'm having difficulty in breathing, I cant breathe well	,Get urgent medical attention.
+faint, fainting	,im fainting	,Lay down and seek help.
+blood,bleed,bled,	I'm bleeding, It's bleeding,	Apply pressure and seek help.
+sleep tips,	how long should I sleep,	Get 7–9 hours of sleep.
+insomnia,	im having insomnia,	Maintain a sleep routine.
+cant sleep,	I cant sleep,	Avoid caffeine before bed.
+naps,	can I have nap tips,	Sleep at consistent times.
+allergy symptoms,	what are allergy symptoms, I think I have an allergy,	Keep naps short.
+pollen allergy , pollen, allergic to pollen,	what are pollen allergy symptoms,	Avoid exposure and take medication.
+burn, burnt,	I've been burnt , I have a burn,	Cool the burn with water
+cut,	I have a cut, ive been cut,	Clean and cover the wound.
+sprain,	ive sprained my leg,	Rest and apply ice
+medication, medicine,	what is the medication the reminder,	Take your medication as prescribed.
+painkillers,	how do I take painkillers,instructions for pinkillers,	Follow dosage instructions.
+antibiotics,	how should I take my antibiotics,	Complete the full course.
+overdose,	ive overdosed a medication,	Seek emergency help immediately.
+side effects,	im having side effects,	Consult your doctor if severe.
+exercise tips,	what are some exercise tips,	Exercise at least 30 minutes daily.
+workout,	how can I workout,	Start light and increase gradually.
+lose weight, cut weight,	how can I lose weight,	Combine diet and exercise.
+fitness , fit,	how can I keep fit, 	Stay active regularly.
+jog, jogging,	how can jogging help,	Jogging helps improve heart health.
+gym,	is going to the gym ok,	Follow a proper workout routine.
+stress,	I have stress,	Practice relaxation techniques.
+anxiety,	I have anxiety,	Talk to someone and relax.
+sad , feeling sad,	Im feeling sad , im sad,	Consider talking to someone you trust.
+depressed, depression,	I have depression, im depressed,	Seek support from professionals.
+overthinking,	im overthinking,	Try mindfulness techniques.

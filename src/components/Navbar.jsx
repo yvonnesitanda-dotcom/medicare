@@ -22,7 +22,7 @@ const Navbar = () => {
         </button>
 
         {/* ADD PRODUCT */}
-        <button className="nav-btn" onClick={() => navigate("/addproducts")}>
+        <button className="nav-btn" onClick={() => navigate("/healthdashboard")}>
           <svg viewBox="0 0 24 24" className="icon">
             <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -49,8 +49,8 @@ const Navbar = () => {
       <div className="navbar-links">
         <Link to="/speaktoadr" className='nav-link'>Speak to a doctor</Link>
         <Link to="/myhealthcenter" className='nav-link'>My Health Center</Link>
-        <Link to="/signin" className='nav-link'>Sign In</Link>
-        <Link to="/signup" className='nav-link'>Sign Up</Link>
+        <Link to="/account" className='nav-link'>My Account</Link>
+        <Link to="/chatbox" className='nav-link'>Chatbot</Link>
       </div>
     </nav>
   );

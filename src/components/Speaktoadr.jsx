@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import ChatBox from "./Chatbox"; // import the chatbox component
+import ChatBox from "./Chatbox";
 import "../css/Doctor.css";
 
-// FULL DOCTOR LIST (20 total)
 const doctors = [
   { id: 1, name: "Dr. John Doe", specialty: "Cardiologist", image: "https://randomuser.me/api/portraits/men/1.jpg", online: true },
   { id: 2, name: "Dr. Mary Jane", specialty: "Dermatologist", image: "https://randomuser.me/api/portraits/women/2.jpg", online: false },
@@ -26,120 +25,99 @@ const doctors = [
   { id: 20, name: "Dr. Loki", specialty: "Psychology", image: "https://randomuser.me/api/portraits/men/20.jpg", online: true }
 ];
 
+
 const SpeakToDoctor = () => {
   const [search, setSearch] = useState("");
-  const [selectedDoctor, setSelectedDoctor] = useState(null); // for booking modal
-  const [chatDoctor, setChatDoctor] = useState(null); // for chatbox
-  const userId = 1; // replace with logged-in user ID
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [chatDoctor, setChatDoctor] = useState(null);
 
-  // Filter doctors by search
   const filtered = doctors.filter(
     (doc) =>
       doc.name.toLowerCase().includes(search.toLowerCase()) ||
       doc.specialty.toLowerCase().includes(search.toLowerCase())
   );
 
-  const firstRow = filtered.slice(0, 10);
-  const secondRow = filtered.slice(10, 20);
-  const available = doctors.filter((doc) => doc.online);
+  const saveAppointment = () => {
+  const date = document.querySelector("#app-date").value;
+  const time = document.querySelector("#app-time").value;
+
+  const newAppointment = {
+    id: Date.now(),
+    doctor: selectedDoctor.name,
+    specialty: selectedDoctor.specialty,
+    date,
+    time
+  };
+
+  const existing = JSON.parse(localStorage.getItem("appointments")) || [];
+
+  const updated = [...existing, newAppointment];
+
+  localStorage.setItem("appointments", JSON.stringify(updated));
+
+  // 🔔 trigger notification storage flag
+  localStorage.setItem("hasNewAppointment", "true");
+
+  alert("📅 Appointment booked successfully!");
+
+  setSelectedDoctor(null);
+};
+  
 
   return (
     <div className="page">
-      {/* 🔍 SEARCH */}
+
       <input
-        type="text"
-        placeholder="Search doctor..."
         className="search"
-        value={search}
+        placeholder="Search doctor..."
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* ===== ROW 1 ===== */}
-      <h2 className="row-title">Top Doctors</h2>
       <div className="doctor-container">
-        {firstRow.map((doc, i) => (
-          <div className="card" key={i}>
-            <div className="img-wrapper">
-              <img src={doc.image} className="doctor-img" />
-              {doc.online && <span className="online-dot"></span>}
-            </div>
-            <div className="card__title">{doc.name}</div>
-            <div className="card__subtitle">{doc.specialty}</div>
-            <div className="card__wrapper">
-              <button onClick={() => setSelectedDoctor(doc)}>📅 Book</button>
-              <button onClick={() => setChatDoctor(doc)}>💬 Talk</button>
-            </div>
+        {filtered.map((doc) => (
+          <div className="card" key={doc.id}>
+            <img src={doc.image} className="doctor-img" />
+            <h4>{doc.name}</h4>
+            <p>{doc.specialty}</p>
+
+            <button onClick={() => setSelectedDoctor(doc)}>
+              📅 Book
+            </button>
+
+            <button
+              onClick={() => {
+                window.open(
+                  `https://wa.me/254700000000?text=Hello Dr. ${doc.name}, I would like consultation.`,
+                  "_blank"
+                );
+              }}
+            >
+              💬 Talk
+            </button>
           </div>
         ))}
       </div>
 
-      {/* ===== ROW 2 ===== */}
-      <h2 className="row-title">More Doctors</h2>
-      <div className="doctor-container">
-        {secondRow.map((doc, i) => (
-          <div className="card" key={i}>
-            <div className="img-wrapper">
-              <img src={doc.image} className="doctor-img" />
-              {doc.online && <span className="online-dot"></span>}
-            </div>
-            <div className="card__title">{doc.name}</div>
-            <div className="card__subtitle">{doc.specialty}</div>
-            <div className="card__wrapper">
-              <button onClick={() => setSelectedDoctor(doc)}>📅 Book</button>
-              <button onClick={() => setChatDoctor(doc)}>💬 Talk</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ===== ROW 3 (Available Now) ===== */}
-      <h2 className="row-title">Available Now</h2>
-      <div className="doctor-container">
-        {available.map((doc, i) => (
-          <div className="card" key={i}>
-            <div className="img-wrapper">
-              <img src={doc.image} className="doctor-img" />
-              <span className="online-dot"></span>
-            </div>
-            <div className="card__title">{doc.name}</div>
-            <div className="card__subtitle">{doc.specialty}</div>
-            <div className="card__wrapper">
-              <button onClick={() => setSelectedDoctor(doc)}>📅 Book</button>
-              <button onClick={() => setChatDoctor(doc)}>💬 Talk</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ===== MODAL FOR BOOKING ===== */}
+      {/* BOOKING MODAL */}
       {selectedDoctor && (
         <div className="modal">
           <div className="modal-content">
             <h3>Book Appointment</h3>
             <p>{selectedDoctor.name}</p>
-            <input type="date" />
-            <input type="time" />
-            <button
-              onClick={() => {
-                alert("Booked!");
-                setSelectedDoctor(null);
-              }}
-            >
-              Confirm
-            </button>
+
+            <input type="date" id="app-date" />
+            <input type="time" id="app-time" />
+
+            <button onClick={saveAppointment}>Confirm</button>
             <button onClick={() => setSelectedDoctor(null)}>Close</button>
           </div>
         </div>
       )}
 
-      {/* ===== CHATBOX ===== */}
       {chatDoctor && (
-        <ChatBox
-          doctor={chatDoctor}
-          userId={userId}
-          onClose={() => setChatDoctor(null)}
-        />
+        <ChatBox doctor={chatDoctor} onClose={() => setChatDoctor(null)} />
       )}
+
     </div>
   );
 };

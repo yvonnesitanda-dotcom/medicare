@@ -1,0 +1,90 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffd6e8, #fff0f5);
+  font-family: "Poppins", sans-serif;
+}
+
+h2 {
+  text-align: center;
+  color: #ff4d88;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.92);
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(255, 77, 136, 0.15);
+}
+
+/* WATER */
+.water-count {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff4d88;
+}
+
+.message {
+  color: #ff4d88;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+}
+
+/* BUTTONS */
+button {
+  background: linear-gradient(135deg, #ff4d88, #ff99bb);
+  border: none;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+}
+
+/* INPUTS */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+  border: 1px solid #ffc0cb;
+}
+
+/* BMI */
+.bmi-result {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #ff4d88;
+}
+
+/* QUOTE */
+.quote {
+  font-style: italic;
+  color: #555;
+}
+
+/* 🌸 TIPS GRID */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+/* TIP CARD */
+.tip-card {
+  background: white;
+  padding: 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  box-shadow: 0 5px 15px rgba(255, 77, 136, 0.1);
+  transition: 0.3s;
+}
+
+.tip-card:hover {
+  transform: scale(1.05);
+}

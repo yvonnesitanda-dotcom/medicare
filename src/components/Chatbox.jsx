@@ -1,73 +1,74 @@
 import React, { useState, useEffect } from "react";
-import "../css/Chatbox.css"; // style it with your light pink theme
-import axios from "axios";
+import Papa from "papaparse";
+import "../css/Chatbox.css";
 
-const ChatBox = ({ doctor, userId, onClose }) => {
+const Chatbox = () => {
+  const [data, setData] = useState([]);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  // Fetch messages
-  const fetchMessages = async () => {
-    try {
-      const res = await axios.get(
-        `https://yvonnesitanda/api/get_messages?user_id=${userId}&doctor_id=${doctor.id}`
-      );
-      setMessages(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  // LOAD CSV
   useEffect(() => {
-    fetchMessages();
-    const interval = setInterval(fetchMessages, 5000); // poll every 5 sec
-    return () => clearInterval(interval);
+    fetch("medicare_data.csv")
+      .then((res) => res.text())
+      .then((csvText) => {
+        Papa.parse(csvText, {
+          header: true,
+          complete: (result) => {
+            setData(result.data);
+          }
+        });
+      });
   }, []);
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-    try {
-      await axios.post("https://yvonnesitanda.alwaysdata.net.com/api/send_message", {
-        sender_id: userId,
-        receiver_id: doctor.id,
-        message: input,
-      });
-      setInput("");
-      fetchMessages(); // refresh
-    } catch (err) {
-      console.error(err);
+  // BOT LOGIC
+  const getReply = (text) => {
+    const userText = text.toLowerCase();
+
+    for (let row of data) {
+      if (row.keyword && userText.includes(row.keyword.toLowerCase())) {
+        return row.response;
+      }
     }
+
+    return "Sorry, I can only help with health-related questions like fever, stress, diet, or exercise.";
+  };
+
+  // SEND MESSAGE
+  const sendMessage = () => {
+    if (!input.trim()) return;
+
+    const userMsg = { sender: "user", text: input };
+    const botMsg = { sender: "bot", text: getReply(input) };
+
+    setMessages([...messages, userMsg, botMsg]);
+    setInput("");
   };
 
   return (
-    <div className="chatbox">
-      <div className="chatbox-header">
-        <h4>Chat with {doctor.name}</h4>
-        <button onClick={onClose}>✖</button>
-      </div>
-      <div className="chatbox-messages">
+    <div className="chat-container">
+
+      <h2>💬 Health Chatbot </h2>
+
+      <div className="chat-box">
         {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`chat-message ${
-              msg.sender_id === userId ? "sent" : "received"
-            }`}
-          >
-            {msg.message}
+          <div key={i} className={msg.sender === "user" ? "user-msg" : "bot-msg"}>
+            {msg.text}
           </div>
         ))}
       </div>
-      <div className="chatbox-input">
+
+      <div className="input-box">
         <input
-          type="text"
-          placeholder="Type a message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          placeholder="Ask about your health..."
         />
         <button onClick={sendMessage}>Send</button>
       </div>
+
     </div>
   );
 };
 
-export default ChatBox;
+export default Chatbox;

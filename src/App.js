@@ -10,6 +10,9 @@ import Navbar from "./components/Navbar";
 import SpeakToDoctor from './components/Speaktoadr';
 import Myhealthcenter from './components/Myhealthcenter';
 import Footer from "./components/Footer";
+import Account from './components/Account';
+import Chatbox from './components/Chatbox';
+import HealthDashboard from './components/Healthdashboard';
 
 function App() {
   
@@ -26,15 +29,17 @@ function App() {
        
        
       <Routes>
-        <Route path='/' element={<Getproducts />} />
+        <Route path='/' element={<Getproducts/>} />
         <Route path='/signup' element={<Signup/>} />
         <Route path= '/signin' element={<Signin/>} />
         <Route path='/makepayment' element={<Makepayment/>}/>
         <Route path='/addproducts' element={<Addproducts/>}/>
         <Route path='/speaktoadr'element={<SpeakToDoctor/>}/>
         <Route path='/myhealthcenter' element={<Myhealthcenter/>}/>
-        
-      </Routes>
+        <Route path='/account' element ={<Account/>}/>
+        <Route path='/chatbox' element={<Chatbox/>}/>
+        <Route path='/healthdashboard' element={<HealthDashboard/>}/>
+              </Routes>
     
     
     </div>
