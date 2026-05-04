@@ -29,7 +29,7 @@ const Navbar = () => {
         </button>
 
         {/* PROFILE */}
-        <button className="nav-btn" onClick={() => navigate("/signin")}>
+        <button className="nav-btn" onClick={() => navigate("/aboutus")}>
           <svg viewBox="0 0 24 24" className="icon">
             <path d="M12 2.5a5.5 5.5 0 013.1 10A9 9 0 0119 21H5a9 9 0 013.9-8.5A5.5 5.5 0 0112 2.5z" />
           </svg>

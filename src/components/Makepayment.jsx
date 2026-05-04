@@ -6,6 +6,7 @@ import '../css/Makepayment.css';
 const Makepayment = () => {
   const { product } = useLocation().state || {};
   const navigate = useNavigate();
+
   const img_url = "https://yvonnesitanda.alwaysdata.net/static/images/";
 
   const [number, setNumber] = useState("");
@@ -13,29 +14,16 @@ const Makepayment = () => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  // Auto-format phone number
   const handlePhoneChange = (e) => {
     let val = e.target.value;
     if (val.startsWith("0")) val = "254" + val.slice(1);
     setNumber(val);
   };
 
-  // Handle Buy Click (prompt if phone empty)
-  const handleCartClick = () => {
-    if (!number) {
-      const phone = prompt("Enter your phone number (07XXXXXXXX or 254XXXXXXXXX):");
-      if (phone) {
-        let formatted = phone.startsWith("0") ? "254" + phone.slice(1) : phone;
-        setNumber(formatted);
-        alert(`Phone number ${formatted} received. Proceed to payment!`);
-      }
-    }
-  };
-
-  // Handle Payment Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!number) return alert("Please enter your phone number!");
+
+    if (!number) return alert("Please enter phone number");
 
     setLoading(true);
     setSuccess("");
@@ -51,70 +39,79 @@ const Makepayment = () => {
         formdata
       );
 
-      setLoading(false);
-      setSuccess(response.data.message || "Payment initiated successfully!");
-      alert(`✅ Payment initiated! Check your phone to complete the transaction.`);
+      setSuccess(response.data.message || "Payment initiated!");
+      alert("📲 Check your phone to complete payment");
     } catch (err) {
+      setError(err.message || "Payment failed");
+    } finally {
       setLoading(false);
-      setError(err.message || "Payment failed. Try again.");
     }
   };
 
-  return (
-    <div className='payment-page row justify-content-center'>
-      <h1 className="text-success text-center">Make Payment - Lipa na M-Pesa</h1>
-
-      {/* Back Button */}
-      <div className="col-md-1 mb-3">
-        <button className="btn back-btn" onClick={() => navigate("/")}>
-          ← Back
-        </button>
+  if (!product) {
+    return (
+      <div className="payment-page">
+        <h2>No product selected</h2>
+        <button onClick={() => navigate("/")}>Go Home</button>
       </div>
+    );
+  }
 
-      {/* Payment Card */}
-      <div className="col-md-6 payment-card">
-        <div className="payment-card-header">
-          <img
-            src={img_url + product.product_photo}
-            alt={product.product_name}
-            className="payment-img"
-          />
+  return (
+    <div className="payment-page">
+
+      {/* LEFT PRODUCT CARD */}
+      <div className="product-card">
+
+        <div className="image-wrapper">
+          <img src={img_url + product.product_photo} alt="" />
         </div>
 
-        <div className="payment-card-body">
-          <h2 className="product-title">{product.product_name}</h2>
-          <p className="product-desc">{product.product_description}</p>
-          <h3 className="product-price">KES {product.product_cost}</h3>
+        <div className="product-info">
+          <h2>{product.product_name}</h2>
+          <p>{product.product_description}</p>
 
-          {/* Buy Button */}
-          <button className="btn buy-btn" onClick={handleCartClick}>
-            🛒 Confirm Phone
+          <div className="price-tag">
+            KES {product.product_cost}
+          </div>
+        </div>
+
+      </div>
+
+      {/* RIGHT PAYMENT CARD */}
+      <div className="payment-card">
+
+        <h2 className="title">Lipa na M-Pesa</h2>
+
+        <p className="subtitle">
+          Secure checkout powered by Safaricom
+        </p>
+
+        <form onSubmit={handleSubmit}>
+
+          <label>Phone Number</label>
+          <input
+            type="tel"
+            placeholder="254XXXXXXXXX"
+            value={number}
+            onChange={handlePhoneChange}
+          />
+
+          {success && <p className="success">{success}</p>}
+          {error && <p className="error">{error}</p>}
+
+          <button disabled={loading || !number}>
+            {loading ? "Processing..." : `Pay KES ${product.product_cost}`}
           </button>
 
-          {/* Payment Form */}
-          <form onSubmit={handleSubmit}>
-            {success && <p className="text-success">{success}</p>}
-            {error && <p className="text-danger">{error}</p>}
+        </form>
 
-            <input
-              type="tel"
-              className="form-control"
-              placeholder="Enter phone number 254XXXXXXXXX"
-              value={number}
-              onChange={handlePhoneChange}
-              required
-            />
+        <button className="back" onClick={() => navigate(-1)}>
+          ← Back
+        </button>
 
-            <button
-              type="submit"
-              className="btn pay-btn"
-              disabled={loading || !number}
-            >
-              {loading ? "Processing..." : "Make Payment"}
-            </button>
-          </form>
-        </div>
       </div>
+
     </div>
   );
 };

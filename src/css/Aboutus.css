@@ -1,0 +1,157 @@
+/* 🌸 PAGE */
+.about-page {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #ffe4f1, #e6f7ff);
+  padding: 20px;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h1 {
+  font-size: 32px;
+  color: #ff4d88;
+}
+
+.hero-text p {
+  color: #555;
+  margin: 10px 0;
+}
+
+.hero-image img {
+  width: 320px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* DONATE BUTTON */
+.donate-btn {
+  padding: 12px 18px;
+  border: none;
+  background: #ff4d88;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+}
+
+.stat-card {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  width: 150px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-card h2 {
+  color: #ff4d88;
+}
+
+/* SECTION TITLE */
+.section-title {
+  text-align: center;
+  margin: 20px 0;
+  color: #333;
+}
+
+/* PARTNERS */
+.partners {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px;
+}
+
+.partner-card {
+  min-width: 150px;
+  background: white;
+  border-radius: 15px;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.partner-card img {
+  width: 80px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* MISSION */
+.mission {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 40px 0;
+}
+
+.mission img {
+  width: 300px;
+  border-radius: 15px;
+}
+
+/* DONATION */
+.donation {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.donation h2 {
+  color: #ff4d88;
+}
+
+.donation-box {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.donation-box input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.donation-box button {
+  padding: 10px 15px;
+  background: #ff4d88;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hero, .mission {
+    flex-direction: column;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+}

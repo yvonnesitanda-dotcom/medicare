@@ -13,6 +13,8 @@ import Footer from "./components/Footer";
 import Account from './components/Account';
 import Chatbox from './components/Chatbox';
 import HealthDashboard from './components/Healthdashboard';
+import Cart from './components/Cart';
+import Aboutus from './components/Aboutus';
 
 function App() {
   
@@ -39,7 +41,10 @@ function App() {
         <Route path='/account' element ={<Account/>}/>
         <Route path='/chatbox' element={<Chatbox/>}/>
         <Route path='/healthdashboard' element={<HealthDashboard/>}/>
+        <Route path='/cart' element={<Cart/>}/>
+        <Route path='/aboutus' element={<Aboutus/>}/>
               </Routes>
+
     
     
     </div>

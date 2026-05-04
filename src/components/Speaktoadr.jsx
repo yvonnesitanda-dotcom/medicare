@@ -1,71 +1,95 @@
-import React, { useState } from "react";
-import ChatBox from "./Chatbox";
+import React, { useEffect, useState } from "react";
 import "../css/Doctor.css";
 
-const doctors = [
-  { id: 1, name: "Dr. John Doe", specialty: "Cardiologist", image: "https://randomuser.me/api/portraits/men/1.jpg", online: true },
-  { id: 2, name: "Dr. Mary Jane", specialty: "Dermatologist", image: "https://randomuser.me/api/portraits/women/2.jpg", online: false },
-  { id: 3, name: "Dr. Alex Kim", specialty: "Pediatrician", image: "https://randomuser.me/api/portraits/men/3.jpg", online: true },
-  { id: 4, name: "Dr. Sarah Lee", specialty: "Neurologist", image: "https://randomuser.me/api/portraits/women/4.jpg", online: true },
-  { id: 5, name: "Dr. James Bond", specialty: "Surgeon", image: "https://randomuser.me/api/portraits/men/5.jpg", online: false },
-  { id: 6, name: "Dr. Grace Kelly", specialty: "Gynecologist", image: "https://randomuser.me/api/portraits/women/6.jpg", online: true },
-  { id: 7, name: "Dr. Peter Parker", specialty: "Orthopedic", image: "https://randomuser.me/api/portraits/men/7.jpg", online: false },
-  { id: 8, name: "Dr. Bruce Wayne", specialty: "Psychiatrist", image: "https://randomuser.me/api/portraits/men/8.jpg", online: true },
-  { id: 9, name: "Dr. Diana Prince", specialty: "Oncologist", image: "https://randomuser.me/api/portraits/women/9.jpg", online: true },
-  { id: 10, name: "Dr. Clark Kent", specialty: "General Doctor", image: "https://randomuser.me/api/portraits/men/10.jpg", online: false },
-  { id: 11, name: "Dr. Natasha Romanoff", specialty: "Nurse Practitioner", image: "https://randomuser.me/api/portraits/women/11.jpg", online: true },
-  { id: 12, name: "Dr. Steve Rogers", specialty: "Physician", image: "https://randomuser.me/api/portraits/men/12.jpg", online: true },
-  { id: 13, name: "Dr. Wanda Maximoff", specialty: "Therapist", image: "https://randomuser.me/api/portraits/women/13.jpg", online: false },
-  { id: 14, name: "Dr. Strange", specialty: "Neurosurgeon", image: "https://randomuser.me/api/portraits/men/14.jpg", online: true },
-  { id: 15, name: "Dr. Banner", specialty: "Scientist Doctor", image: "https://randomuser.me/api/portraits/men/15.jpg", online: false },
-  { id: 16, name: "Dr. Shuri", specialty: "Medical Tech", image: "https://randomuser.me/api/portraits/women/16.jpg", online: true },
-  { id: 17, name: "Dr. Okoye", specialty: "Emergency", image: "https://randomuser.me/api/portraits/women/17.jpg", online: true },
-  { id: 18, name: "Dr. T'Challa", specialty: "Consultant", image: "https://randomuser.me/api/portraits/men/18.jpg", online: false },
-  { id: 19, name: "Dr. Vision", specialty: "AI Medicine", image: "https://randomuser.me/api/portraits/men/19.jpg", online: true },
-  { id: 20, name: "Dr. Loki", specialty: "Psychology", image: "https://randomuser.me/api/portraits/men/20.jpg", online: true }
+const doctorsBase = [
+  { id: 1, name: "Dr. John Doe", specialty: "Cardiologist" },
+  { id: 2, name: "Dr. Mary Jane", specialty: "Dermatologist" },
+  { id: 3, name: "Dr. Alex Kim", specialty: "Pediatrician" },
+  { id: 4, name: "Dr. Sarah Lee", specialty: "Neurologist" },
+  { id: 5, name: "Dr. James Bond", specialty: "Surgeon" },
+  { id: 6, name: "Dr. Grace Kelly", specialty: "Gynecologist" },
+  { id: 7, name: "Dr. Peter Parker", specialty: "Orthopedic" },
+  { id: 8, name: "Dr. Bruce Wayne", specialty: "Psychiatrist" },
+  { id: 9, name: "Dr. Diana Prince", specialty: "Oncologist" },
+  { id: 10, name: "Dr. Clark Kent", specialty: "General Doctor" },
+  { id: 11, name: "Dr. Natasha Romanoff", specialty: "Nurse Practitioner" },
+  { id: 12, name: "Dr. Steve Rogers", specialty: "Physician" },
+  { id: 13, name: "Dr. Wanda Maximoff", specialty: "Therapist" },
+  { id: 14, name: "Dr. Strange", specialty: "Neurosurgeon" },
+  { id: 15, name: "Dr. Banner", specialty: "Scientist Doctor" },
+  { id: 16, name: "Dr. Shuri", specialty: "Medical Tech" },
+  { id: 17, name: "Dr. Okoye", specialty: "Emergency" },
+  { id: 18, name: "Dr. T'Challa", specialty: "Consultant" },
+  { id: 19, name: "Dr. Vision", specialty: "AI Medicine" },
+  { id: 20, name: "Dr. Loki", specialty: "Psychology" },
+  { id: 21, name: "Dr. Messi", specialty: "Sports Medicine" },
+  { id: 22, name: "Dr. Taylor", specialty: "ENT Specialist" },
+  { id: 23, name: "Dr. Serena", specialty: "Rehab" },
+  { id: 24, name: "Dr. Elon", specialty: "Neuro Tech" },
+  { id: 25, name: "Dr. Einstein", specialty: "Research" },
+  { id: 26, name: "Dr. Ada", specialty: "Digital Health" },
+  { id: 27, name: "Dr. Jordan", specialty: "Orthopedic Surgery" },
+  { id: 28, name: "Dr. Oprah", specialty: "Mental Wellness" },
+  { id: 29, name: "Dr. Tony Stark", specialty: "Advanced Surgery" },
+  { id: 30, name: "Dr. House", specialty: "Diagnostics" }
 ];
-
 
 const SpeakToDoctor = () => {
   const [search, setSearch] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [chatDoctor, setChatDoctor] = useState(null);
+  const [videoDoctor, setVideoDoctor] = useState(null);
+  const [appointments, setAppointments] = useState([]);
 
-  const filtered = doctors.filter(
-    (doc) =>
-      doc.name.toLowerCase().includes(search.toLowerCase()) ||
-      doc.specialty.toLowerCase().includes(search.toLowerCase())
+  // 🟢 LIVE ONLINE/OFFLINE SIMULATION
+  const [onlineDoctors, setOnlineDoctors] = useState({});
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const status = {};
+      doctorsBase.forEach(d => {
+        status[d.id] = Math.random() > 0.4; // random online/offline
+      });
+      setOnlineDoctors(status);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const filtered = doctorsBase.filter(d =>
+    d.name.toLowerCase().includes(search.toLowerCase()) ||
+    d.specialty.toLowerCase().includes(search.toLowerCase())
   );
 
-  const saveAppointment = () => {
-  const date = document.querySelector("#app-date").value;
-  const time = document.querySelector("#app-time").value;
+  // 📅 SAVE APPOINTMENT
+  const bookAppointment = () => {
+    const date = document.querySelector("#date").value;
+    const time = document.querySelector("#time").value;
 
-  const newAppointment = {
-    id: Date.now(),
-    doctor: selectedDoctor.name,
-    specialty: selectedDoctor.specialty,
-    date,
-    time
+    const newApp = {
+      id: Date.now(),
+      doctor: selectedDoctor.name,
+      specialty: selectedDoctor.specialty,
+      date,
+      time,
+      paid: false
+    };
+
+    const updated = [...appointments, newApp];
+    setAppointments(updated);
+    localStorage.setItem("appointments", JSON.stringify(updated));
+
+    alert("Appointment created. Proceed to payment.");
   };
 
-  const existing = JSON.parse(localStorage.getItem("appointments")) || [];
-
-  const updated = [...existing, newAppointment];
-
-  localStorage.setItem("appointments", JSON.stringify(updated));
-
-  // 🔔 trigger notification storage flag
-  localStorage.setItem("hasNewAppointment", "true");
-
-  alert("📅 Appointment booked successfully!");
-
-  setSelectedDoctor(null);
-};
-  
+  // 💳 PAYMENT (SIMULATED M-PESA)
+  const payConsultation = (app) => {
+    alert(`📲 M-Pesa STK Push sent to pay consultation with ${app.doctor}`);
+  };
 
   return (
-    <div className="page">
+    <div className="doctor-page">
+
+      <h2 className="title">👩‍⚕️ TeleMedicine Platform</h2>
 
       <input
         className="search"
@@ -73,50 +97,98 @@ const SpeakToDoctor = () => {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <div className="doctor-container">
-        {filtered.map((doc) => (
-          <div className="card" key={doc.id}>
-            <img src={doc.image} className="doctor-img" />
+      {/* DOCTOR CARDS */}
+      <div className="doctor-scroll">
+
+        {filtered.map(doc => (
+          <div className="doctor-card" key={doc.id}>
+
+            <div className="img-wrapper">
+              <img src={`https://randomuser.me/api/portraits/men/${doc.id}.jpg`} />
+              <span className={onlineDoctors[doc.id] ? "online" : "offline"} />
+            </div>
+
             <h4>{doc.name}</h4>
             <p>{doc.specialty}</p>
 
-            <button onClick={() => setSelectedDoctor(doc)}>
-              📅 Book
-            </button>
+            <div className="btn-group">
 
-            <button
-              onClick={() => {
+              <button onClick={() => setSelectedDoctor(doc)}>
+                📅 Book
+              </button>
+
+              <button onClick={() =>
                 window.open(
-                  `https://wa.me/254700000000?text=Hello Dr. ${doc.name}, I would like consultation.`,
+                  `https://wa.me/254700000000?text=Hi ${doc.name}, I need consultation`,
                   "_blank"
-                );
-              }}
-            >
-              💬 Talk
-            </button>
+                )
+              }>
+                💬 WhatsApp
+              </button>
+
+              <button onClick={() => setVideoDoctor(doc)}>
+                📹 Video
+              </button>
+
+            </div>
+
           </div>
         ))}
+
       </div>
 
-      {/* BOOKING MODAL */}
+      {/* APPOINTMENT MODAL */}
       {selectedDoctor && (
         <div className="modal">
-          <div className="modal-content">
-            <h3>Book Appointment</h3>
-            <p>{selectedDoctor.name}</p>
+          <div className="modal-box">
 
-            <input type="date" id="app-date" />
-            <input type="time" id="app-time" />
+            <h3>{selectedDoctor.name}</h3>
 
-            <button onClick={saveAppointment}>Confirm</button>
+            <input type="date" id="date" />
+            <input type="time" id="time" />
+
+            <button onClick={bookAppointment}>Book Appointment</button>
             <button onClick={() => setSelectedDoctor(null)}>Close</button>
+
           </div>
         </div>
       )}
 
-      {chatDoctor && (
-        <ChatBox doctor={chatDoctor} onClose={() => setChatDoctor(null)} />
+      {/* VIDEO CONSULTATION UI */}
+      {videoDoctor && (
+        <div className="modal">
+          <div className="video-box">
+
+            <h3>Video Call with {videoDoctor.name}</h3>
+
+            <div className="video-grid">
+              <div className="video local">You</div>
+              <div className="video remote">{videoDoctor.name}</div>
+            </div>
+
+            <button onClick={() => setVideoDoctor(null)}>
+              End Call
+            </button>
+
+          </div>
+        </div>
       )}
+
+      {/* APPOINTMENT LIST */}
+      <div className="appointments">
+        <h3>My Appointments</h3>
+
+        {appointments.map(app => (
+          <div className="appointment-card" key={app.id}>
+            <p>{app.doctor}</p>
+            <p>{app.date} - {app.time}</p>
+
+            <button onClick={() => payConsultation(app)}>
+              Pay Consultation
+            </button>
+          </div>
+        ))}
+      </div>
 
     </div>
   );
