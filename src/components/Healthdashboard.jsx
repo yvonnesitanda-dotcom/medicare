@@ -13,50 +13,55 @@ const HealthDashboard = () => {
     "Discipline creates beauty inside and out 🌷"
   ];
 
-  // 💧 STATES (ORIGINAL + ADDITIONS)
+  // 👤 USER
+  const user = localStorage.getItem("userName") || "Guest";
+
+  // 💧 WATER
   const [water, setWater] = useState(0);
   const [message, setMessage] = useState("");
+
+  // 😴 SLEEP
+  const [sleep, setSleep] = useState(0);
+
+  // 💬 QUOTE
   const [quote, setQuote] = useState("");
 
-  // 📊 BMI STATES
+  // 📊 BMI
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [bmi, setBmi] = useState(null);
 
-  // 🌸 HEALTH TIPS
   const tips = [
     "Drink at least 2L of water daily 💧",
     "Sleep 7–8 hours 😴",
     "Eat fruits and vegetables 🥗",
     "Walk daily 🚶",
     "Avoid sugary drinks 🧃",
-    "Exercise 30 mins 🏃",
-    "Stretch daily 🧘",
-    "Maintain posture 🪑",
-    "Limit junk food 🍔",
-    "Stay hydrated 💧",
-    "Wash hands 🧼",
-    "Take breaks 📚",
-    "Deep breathing 🫁",
-    "Eat slowly 🍽️",
-    "Reduce stress 💆",
-    "Drink herbal tea 🌿",
-    "Walk after meals 🚶‍♀️",
-    "Stay consistent 🌸",
-    "Avoid screen overuse 📱",
-    "Rest well 😴"
+    "Exercise 30 mins 🏃"
   ];
 
-  // 📅 LOAD DAILY DATA
+  // 📥 LOAD DATA (WATER + SLEEP)
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("waterData"));
+    const waterData = JSON.parse(localStorage.getItem("waterData"));
+    const sleepData = JSON.parse(localStorage.getItem("sleepData"));
 
-    if (savedData && savedData.date === today) {
-      setWater(savedData.count);
+    // WATER
+    if (waterData && waterData.date === today) {
+      setWater(waterData.count);
     } else {
       localStorage.setItem(
         "waterData",
         JSON.stringify({ count: 0, date: today })
+      );
+    }
+
+    // SLEEP
+    if (sleepData && sleepData.date === today) {
+      setSleep(sleepData.hours);
+    } else {
+      localStorage.setItem(
+        "sleepData",
+        JSON.stringify({ hours: 0, date: today })
       );
     }
 
@@ -65,19 +70,19 @@ const HealthDashboard = () => {
 
   }, []);
 
-  // 💧 ADD WATER FUNCTION (UNCHANGED LOGIC)
+  // 💧 ADD WATER
   const addWater = () => {
     let newCount = water + 1;
     setWater(newCount);
 
     let msg = "";
 
-    if (newCount < 8) {
-      msg = "💖 Good job! Keep going, you're doing amazing!";
+    if (newCount < 20) {
+      msg = "💖 Keep going! Stay hydrated!";
     }
 
-    if (newCount === 8) {
-      msg = "🎉 Congratulations! You completed 8 glasses today!";
+    if (newCount === 20) {
+      msg = "🎉 Amazing! You reached your water goal!";
     }
 
     setMessage(msg);
@@ -88,7 +93,6 @@ const HealthDashboard = () => {
     );
   };
 
-  // 🔄 RESET WATER
   const resetWater = () => {
     setWater(0);
     setMessage("");
@@ -99,7 +103,17 @@ const HealthDashboard = () => {
     );
   };
 
-  // 📊 BMI CALCULATOR
+  // 😴 SAVE SLEEP
+  const handleSleep = (value) => {
+    setSleep(value);
+
+    localStorage.setItem(
+      "sleepData",
+      JSON.stringify({ hours: value, date: today })
+    );
+  };
+
+  // 📊 BMI
   const calculateBMI = () => {
     if (!height || !weight) return;
 
@@ -114,20 +128,58 @@ const HealthDashboard = () => {
 
       <h2>🌸 Health Dashboard</h2>
 
-      {/* 💧 WATER CARD */}
+      {/* 👋 WELCOME */}
+      <h4>👋 Welcome back, {user}</h4>
+      <p>Today is {today}</p>
+
+      {/* 💧 WATER */}
       <div className="card">
         <h3>💧 Water Intake Tracker</h3>
 
-        <p className="water-count">{water} / 8 glasses</p>
+        <p className="water-count">{water} / 20 glasses</p>
+
+        {/* PROGRESS BAR WATER */}
+        <div style={{ background: "#eee", borderRadius: 10 }}>
+          <div
+            style={{
+              width: `${(water / 20) * 100}%`,
+              height: 10,
+              background: "#4dd0e1",
+              borderRadius: 10
+            }}
+          />
+        </div>
 
         <button onClick={addWater}>+ Add Water</button>
         <button onClick={resetWater}>Reset</button>
 
         <p className="message">{message}</p>
+      </div>
 
-        {water === 8 && (
-          <p className="success">🏆 You reached your daily hydration goal!</p>
-        )}
+      {/* 😴 SLEEP */}
+      <div className="card">
+        <h3>😴 Sleep Tracker</h3>
+
+        <input
+          type="number"
+          placeholder="Hours slept today"
+          value={sleep}
+          onChange={(e) => handleSleep(e.target.value)}
+        />
+
+        <p>{sleep >= 7 ? "🌙 Great sleep!" : "⚠️ Try sleeping more (7–8 hrs)"}</p>
+
+        {/* PROGRESS BAR SLEEP */}
+        <div style={{ background: "#eee", borderRadius: 10 }}>
+          <div
+            style={{
+              width: `${(sleep / 8) * 100}%`,
+              height: 10,
+              background: "#9575cd",
+              borderRadius: 10
+            }}
+          />
+        </div>
       </div>
 
       {/* 💬 QUOTE */}
@@ -154,12 +206,10 @@ const HealthDashboard = () => {
 
         <button onClick={calculateBMI}>Calculate BMI</button>
 
-        {bmi && (
-          <p className="bmi-result">Your BMI is: {bmi}</p>
-        )}
+        {bmi && <p>Your BMI is: {bmi}</p>}
       </div>
 
-      {/* 🌸 HEALTH TIPS */}
+      {/* 🌸 TIPS */}
       <div className="card">
         <h3>🌸 Health Tips</h3>
 

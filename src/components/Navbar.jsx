@@ -50,7 +50,7 @@ const Navbar = () => {
         <Link to="/speaktoadr" className='nav-link'>Speak to a doctor</Link>
         <Link to="/myhealthcenter" className='nav-link'>My Health Center</Link>
         <Link to="/account" className='nav-link'>My Account</Link>
-        <Link to="/chatbox" className='nav-link'>Chatbot</Link>
+        <Link to="/signup" className='nav-link'>Upload a Prescription</Link>
       </div>
     </nav>
   );
