@@ -68,7 +68,7 @@ const HealthDashboard = () => {
     const dayIndex = new Date().getDate() % quotes.length;
     setQuote(quotes[dayIndex]);
 
-  }, [today, quotes]);
+  }, [today]);
 
   // 💧 ADD WATER
   const addWater = () => {
