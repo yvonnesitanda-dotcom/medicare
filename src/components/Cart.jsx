@@ -8,11 +8,46 @@ const Cart = () => {
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(storedCart);
+
+    // ✅ ADD DEFAULT QUANTITY
+    const updatedCart = storedCart.map(item => ({
+      ...item,
+      quantity: item.quantity || 1
+    }));
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   }, []);
 
   const removeFromCart = (id) => {
     const updatedCart = cart.filter(item => item.product_id !== id);
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  // ✅ INCREASE QUANTITY
+  const increaseQty = (id) => {
+    const updatedCart = cart.map(item =>
+      item.product_id === id
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  // ✅ DECREASE QUANTITY
+  const decreaseQty = (id) => {
+    const updatedCart = cart.map(item =>
+      item.product_id === id
+        ? {
+            ...item,
+            quantity: item.quantity > 1 ? item.quantity - 1 : 1
+          }
+        : item
+    );
+
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
@@ -22,8 +57,13 @@ const Cart = () => {
     localStorage.removeItem("cart");
   };
 
+  // ✅ TOTAL WITH QUANTITY
   const getTotal = () => {
-    return cart.reduce((sum, item) => sum + Number(item.product_cost), 0);
+    return cart.reduce(
+      (sum, item) =>
+        sum + Number(item.product_cost) * item.quantity,
+      0
+    );
   };
 
   return (
@@ -52,7 +92,24 @@ const Cart = () => {
 
                 <div className="cart-info">
                   <h4>{item.product_name}</h4>
-                  <p>KES {item.product_cost}</p>
+
+                  {/* ✅ PRICE */}
+                  <p>
+                    KES {Number(item.product_cost) * item.quantity}
+                  </p>
+
+                  {/* ✅ QUANTITY CONTROLS */}
+                  <div className="qty-controls">
+                    <button onClick={() => decreaseQty(item.product_id)}>
+                      -
+                    </button>
+
+                    <span>{item.quantity}</span>
+
+                    <button onClick={() => increaseQty(item.product_id)}>
+                      +
+                    </button>
+                  </div>
 
                   <button
                     className="remove-btn"

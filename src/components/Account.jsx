@@ -7,11 +7,9 @@ const Account = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [activeTab, setActiveTab] = useState("profile");
   const [appointments, setAppointments] = useState([]);
-
-
   // 💧 WATER STATES
   const [water, setWater] = useState(0);
-  const [weeklyWater, setWeeklyWater] = useState([]);
+  const [, setWeeklyWater] = useState([]);
 
   // 🔥 STREAK
   const [streak, setStreak] = useState(0);
@@ -75,7 +73,7 @@ const Account = () => {
     setWeeklyWater(JSON.parse(localStorage.getItem("waterHistory")) || []);
     setStreak(JSON.parse(localStorage.getItem("streak")) || 0);
 
-  }, []);
+  }, [navigate, today]);
 
   // 📸 PROFILE PICTURE UPLOAD
   const handleImageChange = (e) => {
@@ -160,7 +158,7 @@ const Account = () => {
 
     localStorage.setItem("hasNewAppointment", "false");
   }
-}, []);
+}, [navigate, today]);
 
   const resetWater = () => {
     setWater(0);

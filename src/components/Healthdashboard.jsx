@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "../css/Healthdashboard.css";
 
+const quotes = [
+  "Your health is your wealth 🌸",
+  "Small steps every day lead to big results 💪",
+  "Drink water and glow ✨",
+  "Take care of your body, it's your only home 💖",
+  "Discipline creates beauty inside and out 🌷"
+];
+
 const HealthDashboard = () => {
 
   const today = new Date().toDateString();
-
-  const quotes = [
-    "Your health is your wealth 🌸",
-    "Small steps every day lead to big results 💪",
-    "Drink water and glow ✨",
-    "Take care of your body, it's your only home 💖",
-    "Discipline creates beauty inside and out 🌷"
-  ];
 
   // 👤 USER
   const user = localStorage.getItem("userName") || "Guest";
@@ -68,7 +68,7 @@ const HealthDashboard = () => {
     const dayIndex = new Date().getDate() % quotes.length;
     setQuote(quotes[dayIndex]);
 
-  }, []);
+  }, [today, quotes]);
 
   // 💧 ADD WATER
   const addWater = () => {
