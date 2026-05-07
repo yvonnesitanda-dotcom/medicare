@@ -104,7 +104,7 @@ const SpeakToDoctor = () => {
           <div className="doctor-card" key={doc.id}>
 
             <div className="img-wrapper">
-              <img src={`https://randomuser.me/api/portraits/men/${doc.id}.jpg`} />
+              <img src={`https://randomuser.me/api/portraits/men/${doc.id}.jpg`} alt="doc" />
               <span className={onlineDoctors[doc.id] ? "online" : "offline"} />
             </div>
 
