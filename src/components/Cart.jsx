@@ -6,30 +6,37 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
+  // ✅ LOAD CART
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // ✅ ADD DEFAULT QUANTITY
-    const updatedCart = storedCart.map(item => ({
+    const updatedCart = storedCart.map((item) => ({
       ...item,
-      quantity: item.quantity || 1
+      quantity: item.quantity || 1,
     }));
 
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   }, []);
 
+  // ✅ REMOVE ITEM
   const removeFromCart = (id) => {
-    const updatedCart = cart.filter(item => item.product_id !== id);
+    const updatedCart = cart.filter(
+      (item) => item.product_id !== id
+    );
+
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   // ✅ INCREASE QUANTITY
   const increaseQty = (id) => {
-    const updatedCart = cart.map(item =>
+    const updatedCart = cart.map((item) =>
       item.product_id === id
-        ? { ...item, quantity: item.quantity + 1 }
+        ? {
+            ...item,
+            quantity: item.quantity + 1,
+          }
         : item
     );
 
@@ -39,11 +46,14 @@ const Cart = () => {
 
   // ✅ DECREASE QUANTITY
   const decreaseQty = (id) => {
-    const updatedCart = cart.map(item =>
+    const updatedCart = cart.map((item) =>
       item.product_id === id
         ? {
             ...item,
-            quantity: item.quantity > 1 ? item.quantity - 1 : 1
+            quantity:
+              item.quantity > 1
+                ? item.quantity - 1
+                : 1,
           }
         : item
     );
@@ -52,18 +62,54 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
+  // ✅ CLEAR CART
   const clearCart = () => {
     setCart([]);
     localStorage.removeItem("cart");
   };
 
-  // ✅ TOTAL WITH QUANTITY
+  // ✅ TOTAL PRICE
   const getTotal = () => {
     return cart.reduce(
       (sum, item) =>
-        sum + Number(item.product_cost) * item.quantity,
+        sum +
+        Number(item.product_cost) * item.quantity,
       0
     );
+  };
+
+  // ✅ TOTAL ITEMS
+  const getTotalItems = () => {
+    return cart.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+  };
+
+  // ✅ PURCHASE FUNCTION
+  const handlePurchase = () => {
+    const phone = prompt(
+      "📱 Enter M-Pesa Phone Number"
+    );
+
+    if (!phone) {
+      alert("Phone number is required!");
+      return;
+    }
+
+    // SIMPLE VALIDATION
+    if (phone.length < 10) {
+      alert("Enter a valid phone number!");
+      return;
+    }
+
+    alert(
+      `✅ Payment request sent to ${phone}\n\nTotal Amount: KES ${getTotal()}\n\nComplete payment on your phone.`
+    );
+
+    // CLEAR CART AFTER PURCHASE
+    setCart([]);
+    localStorage.removeItem("cart");
   };
 
   return (
@@ -73,17 +119,26 @@ const Cart = () => {
 
       {cart.length === 0 ? (
         <div className="empty-cart">
+
           <p>Your cart is empty 😢</p>
-          <button onClick={() => navigate("/products")}>
-            Go Shopping
+
+          {/* ✅ REDIRECT TO PRODUCTS */}
+          <button
+            onClick={() => navigate("/getproducts")}
+          >
+            Continue Shopping
           </button>
+
         </div>
       ) : (
         <>
           <div className="cart-grid">
 
-            {cart.map(item => (
-              <div className="cart-card" key={item.product_id}>
+            {cart.map((item) => (
+              <div
+                className="cart-card"
+                key={item.product_id}
+              >
 
                 <img
                   src={`https://yvonnesitanda.alwaysdata.net/static/images/${item.product_photo}`}
@@ -91,32 +146,52 @@ const Cart = () => {
                 />
 
                 <div className="cart-info">
+
                   <h4>{item.product_name}</h4>
 
-                  {/* ✅ PRICE */}
-                  <p>
-                    KES {Number(item.product_cost) * item.quantity}
+                  <p className="single-price">
+                    Price: KES {item.product_cost}
+                  </p>
+
+                  <p className="subtotal">
+                    Subtotal: KES{" "}
+                    {Number(item.product_cost) *
+                      item.quantity}
                   </p>
 
                   {/* ✅ QUANTITY CONTROLS */}
                   <div className="qty-controls">
-                    <button onClick={() => decreaseQty(item.product_id)}>
+
+                    <button
+                      onClick={() =>
+                        decreaseQty(item.product_id)
+                      }
+                    >
                       -
                     </button>
 
                     <span>{item.quantity}</span>
 
-                    <button onClick={() => increaseQty(item.product_id)}>
+                    <button
+                      onClick={() =>
+                        increaseQty(item.product_id)
+                      }
+                    >
                       +
                     </button>
+
                   </div>
 
+                  {/* ✅ REMOVE */}
                   <button
                     className="remove-btn"
-                    onClick={() => removeFromCart(item.product_id)}
+                    onClick={() =>
+                      removeFromCart(item.product_id)
+                    }
                   >
                     Remove
                   </button>
+
                 </div>
 
               </div>
@@ -124,22 +199,42 @@ const Cart = () => {
 
           </div>
 
-          {/* SUMMARY */}
+          {/* ✅ SUMMARY */}
           <div className="cart-summary">
 
             <h3>Order Summary</h3>
 
-            <p>Total Items: {cart.length}</p>
-            <p className="total">Total: KES {getTotal()}</p>
+            <p>
+              Total Items: {getTotalItems()}
+            </p>
 
+            <p className="total">
+              Total: KES {getTotal()}
+            </p>
+
+            {/* ✅ PURCHASE */}
             <button
               className="checkout-btn"
-              onClick={() => navigate("/makepayment", { state: { cart } })}
+              onClick={handlePurchase}
             >
-              Checkout
+              Purchase Now
             </button>
 
-            <button className="clear-btn" onClick={clearCart}>
+            {/* ✅ CONTINUE SHOPPING */}
+            <button
+              className="continue-btn"
+              onClick={() =>
+                navigate("/")
+              }
+            >
+              Continue Shopping
+            </button>
+
+            {/* ✅ CLEAR CART */}
+            <button
+              className="clear-btn"
+              onClick={clearCart}
+            >
               Clear Cart
             </button>
 
